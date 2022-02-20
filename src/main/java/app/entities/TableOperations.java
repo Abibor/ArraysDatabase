@@ -11,7 +11,7 @@ public class TableOperations {
     private static String user = "postgres";
     private static String password = "453659";
     public static int columns;
-    public static  String query;
+    public static String query;
 
     public static void countColumn() throws SQLException {
         Connection con = DriverManager.getConnection(url, user, password);
@@ -32,10 +32,12 @@ public class TableOperations {
         ResultSet rs = ps.executeQuery();
         ResultSetMetaData meta = rs.getMetaData();
 
+        //Счетчик колличества столбцов
         int columnCount = meta.getColumnCount();
-
+        //Массив для хранения имен столбцов
         ArrayList<String> nameColumn = new ArrayList<>();
-        for (int i = 1; i < columnCount; i++) {
+
+        for (int i = 1; i < columnCount + 1; i++) {
             String columnName = meta.getColumnName(i);
             nameColumn.add(columnName);
         }
@@ -44,12 +46,12 @@ public class TableOperations {
 
         String e = "";
 
-        for(int i = 1; i < nameColumn.size(); i++){
+        for (int i = 1; i < Calculation.nowColumns + 1; i++) {
             e = e + nameColumn.get(i) + ", ";
         }
 
         StringBuilder sb = new StringBuilder(e);
-        sb.deleteCharAt(sb.length()-2);
+        sb.deleteCharAt(sb.length() - 2);
         e = sb.toString();
         query = e.trim();
 

@@ -23,12 +23,12 @@ public class Calculation {
         stringNumberList.add("222");
         stringNumberList.add("2222");
         stringNumberList.add("-2");
-        stringNumberList.add("5");
-        stringNumberList.add("6");
-        stringNumberList.add("7");
-        stringNumberList.add("7");
-        stringNumberList.add("7");
-        stringNumberList.add("7");
+        //stringNumberList.add("5");
+        //stringNumberList.add("6");
+        //stringNumberList.add("7");
+        //stringNumberList.add("7");
+        //stringNumberList.add("7");
+        //stringNumberList.add("7");
 
         System.out.println(stringNumberList);
         nowColumns = stringNumberList.size();
@@ -37,7 +37,6 @@ public class Calculation {
         for (int i = 0; i < stringNumberList.size(); i++) {
             d = d + stringNumberList.get(i) + ", ";
         }
-        //System.out.println(d);
 
         StringBuilder sb = new StringBuilder(d);
         sb.deleteCharAt(sb.length()-2);
@@ -57,10 +56,8 @@ public class Calculation {
         System.out.println(columns + " | Количество столбцов в БД");
 
         TableOperations.alterTable();
-
         TableOperations.columnName();
 
-        //String query = "INSERT INTO list_arrays(first_number, second_number, third_number, fourth_number, fifth_number) VALUES ("+ e + ")";
         query = "INSERT INTO list_arrays (" + TableOperations.query + ") VALUES ("+ e + ")";
         //String query = "INSERT INTO table_name VALUES ("+ e + ")";
 
