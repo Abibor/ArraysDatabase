@@ -11,6 +11,7 @@ public class TableOperations {
     private static String user = "postgres";
     private static String password = "453659";
     public static int columns;
+    public static  String query;
 
     public static void countColumn() throws SQLException {
         Connection con = DriverManager.getConnection(url, user, password);
@@ -38,25 +39,27 @@ public class TableOperations {
             String columnName = meta.getColumnName(i);
             nameColumn.add(columnName);
         }
-        System.out.println(nameColumn);
 
-        String query = "";
+        System.out.println(nameColumn + " | Имена столбцов в таблице");
+
+        String e = "";
 
         for(int i = 1; i < nameColumn.size(); i++){
-            query = query + nameColumn.get(i) + ", ";
+            e = e + nameColumn.get(i) + ", ";
         }
 
-        StringBuilder sb = new StringBuilder(query);
+        StringBuilder sb = new StringBuilder(e);
         sb.deleteCharAt(sb.length()-2);
-        query = sb.toString();
-        String e = query.trim();
+        e = sb.toString();
+        query = e.trim();
 
-        System.out.println(e);
+        System.out.println(query + " | Строка стобцов для INSERT");
     }
 
     public static void alterTable() throws SQLException {
-        if (Calculation.nowColumns != columns) {
-            int create = Calculation.nowColumns - columns + 1;
+        if (Calculation.nowColumns >= columns) {
+            int create = Calculation.nowColumns - columns;
+            create = create + 1;
             System.out.println("created columns = " + create);
             Integer[] clmns = new Integer[create];
 

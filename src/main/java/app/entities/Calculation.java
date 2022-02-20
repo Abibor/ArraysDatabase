@@ -12,6 +12,7 @@ public class Calculation {
     private static String d = "";
     private static int columns;
     public static int nowColumns;
+    public static String query;
 
     public static void main(String [] args) throws SQLException {
         List<String> stringNumberList = new ArrayList<>();
@@ -22,47 +23,50 @@ public class Calculation {
         stringNumberList.add("222");
         stringNumberList.add("2222");
         stringNumberList.add("-2");
-        //stringNumberList.add("5");
-        //stringNumberList.add("6");
-        //stringNumberList.add("7");
-        //stringNumberList.add("7");
-        //stringNumberList.add("7");
-        //stringNumberList.add("7");
+        stringNumberList.add("5");
+        stringNumberList.add("6");
+        stringNumberList.add("7");
+        stringNumberList.add("7");
+        stringNumberList.add("7");
+        stringNumberList.add("7");
 
         System.out.println(stringNumberList);
         nowColumns = stringNumberList.size();
-        System.out.println(nowColumns);
+        System.out.println(nowColumns + " | Количество элементов в списке для добавления в БД");
 
         for (int i = 0; i < stringNumberList.size(); i++) {
             d = d + stringNumberList.get(i) + ", ";
         }
-        System.out.println(d);
+        //System.out.println(d);
 
         StringBuilder sb = new StringBuilder(d);
         sb.deleteCharAt(sb.length()-2);
         d = sb.toString();
         String e = d.trim();
 
-        System.out.println(e);
+        System.out.println(e + " | Строка для INSERT значения VALUE");
 
-        //String query = "INSERT INTO list_arrays(first_number, second_number, third_number, fourth_number, fifth_number) VALUES ("+ e + ")";
-        String query = "INSERT INTO list_arrays VALUES ("+ e + ")";
-        //String query = "INSERT INTO table_name VALUES ("+ e + ")";
-
-        System.out.println(query);
 
         for(String s : stringNumberList) numberList.add(Integer.valueOf(s));
         Collections.sort(numberList);
 
-        System.out.println(numberList);
+        System.out.println(numberList + " - Отсортированная список элементов");
 
         TableOperations.countColumn();
         columns = TableOperations.columns;
-        System.out.println("columns = " + columns);
+        System.out.println(columns + " | Количество столбцов в БД");
 
-        //TableOperations.alterTable();
-        //TableOperations.insertRow(query);
+        TableOperations.alterTable();
+
         TableOperations.columnName();
+
+        //String query = "INSERT INTO list_arrays(first_number, second_number, third_number, fourth_number, fifth_number) VALUES ("+ e + ")";
+        query = "INSERT INTO list_arrays (" + TableOperations.query + ") VALUES ("+ e + ")";
+        //String query = "INSERT INTO table_name VALUES ("+ e + ")";
+
+        System.out.println(query + " | Итоговая строка для вставки значений в БД");
+
+        TableOperations.insertRow(query);
 
     }
 }
