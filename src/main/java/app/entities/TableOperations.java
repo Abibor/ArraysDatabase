@@ -15,6 +15,7 @@ public class TableOperations {
         Connection con = DriverManager.getConnection(url, user, password);
 
         PreparedStatement ps = con.prepareStatement("select * from list_arrays");
+        //PreparedStatement ps = con.prepareStatement("select * from table_name");
 
         ResultSet rs = ps.executeQuery();
 
@@ -23,17 +24,42 @@ public class TableOperations {
         columns = rsmd.getColumnCount();
     }
 
+    public static void columnName() throws SQLException {
+        Connection con = DriverManager.getConnection(url, user, password);
+        PreparedStatement ps = con.prepareStatement("SELECT From list_arrays");
+        ResultSet rs = ps.executeQuery();
+        ResultSetMetaData meta = rs.getMetaData();
+        String colname1 = meta.getColumnName(1);
+
+        System.out.println(colname1);
+
+    }
+
     public static void alterTable() throws SQLException {
         if (Calculation.nowColumns != columns){
-            int create = Calculation.nowColumns - columns;
-            System.out.println("create = " + create);
-            String [] clmns = new String[create];
+            int create = Calculation.nowColumns - columns + 1;
+            System.out.println("created columns = " + create);
+            Integer [] clmns = new Integer[create];
+
             for (int i = 0; i < clmns.length; i++) {
-                String sql="ALTER TABLE list_arrays ADD column datatype"+i+" varchar(10)";
+                columns++;
+                clmns[i] = columns;
+                String sql="ALTER TABLE list_arrays ADD column column_"+clmns[i]+" varchar(10)";
+                //String sql="ALTER TABLE table_name ADD column column_"+clmns[i]+" varchar(10)";
                 Connection con = DriverManager.getConnection(url, user, password);
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.execute();
             }
+        } else {
+            System.out.println("Колличество столбцов хватает для количества элементов массива");
         }
+    }
+
+    public static void insertRow(String query) throws SQLException {
+        Connection con = DriverManager.getConnection(url, user, password);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.executeUpdate();
+        System.out.println("Query done! Check it");
+
     }
 }

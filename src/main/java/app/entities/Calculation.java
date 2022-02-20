@@ -6,8 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Calculation {
 
@@ -24,12 +22,12 @@ public class Calculation {
         stringNumberList.add("222");
         stringNumberList.add("2222");
         stringNumberList.add("-2");
-        stringNumberList.add("5");
-        stringNumberList.add("6");
-        stringNumberList.add("7");
-        stringNumberList.add("7");
-        stringNumberList.add("7");
-        stringNumberList.add("7");
+        //stringNumberList.add("5");
+        //stringNumberList.add("6");
+        //stringNumberList.add("7");
+        //stringNumberList.add("7");
+        //stringNumberList.add("7");
+        //stringNumberList.add("7");
 
         System.out.println(stringNumberList);
         nowColumns = stringNumberList.size();
@@ -47,7 +45,9 @@ public class Calculation {
 
         System.out.println(e);
 
-        String query = "INSERT INTO list_arrays(first_number, second_number, third_number, fourth_number, fifth_number) VALUES ("+ e + ")";
+        //String query = "INSERT INTO list_arrays(first_number, second_number, third_number, fourth_number, fifth_number) VALUES ("+ e + ")";
+        String query = "INSERT INTO list_arrays VALUES ("+ e + ")";
+        //String query = "INSERT INTO table_name VALUES ("+ e + ")";
 
         System.out.println(query);
 
@@ -58,9 +58,11 @@ public class Calculation {
 
         TableOperations.countColumn();
         columns = TableOperations.columns;
-        System.out.println(columns);
+        System.out.println("columns = " + columns);
 
-        TableOperations.alterTable();
+        //TableOperations.alterTable();
+        //TableOperations.insertRow(query);
+        TableOperations.columnName();
 
     }
 }
