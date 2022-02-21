@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ListServlet extends HttpServlet {
 
@@ -32,7 +36,15 @@ public class ListServlet extends HttpServlet {
         if(!idNumber.isEmpty()){
             //метод возвращающий отсортированный массив
             String[] arrays = model.getDBid(id);
-            req.setAttribute("arrays", arrays);
+
+            //Преоброзование массива в список и удаление пустых послей
+            List<String> list = new ArrayList<>(Arrays.asList(arrays));
+            list.removeAll(Collections.singleton(null));
+            list.removeAll(Collections.singleton(""));
+
+            //Превращенеи списка в массив и передача в jsp
+            String[] arr = list.toArray(new String[list.size()]);
+            req.setAttribute("arrays", arr);
         }
         doGet(req, resp);
     }

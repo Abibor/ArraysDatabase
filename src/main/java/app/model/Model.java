@@ -1,8 +1,5 @@
 package app.model;
 
-import app.entities.Array;
-import app.entities.Calculation;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,30 +54,21 @@ public class Model {
 
         System.out.println(e + " | Строка для INSERT значения VALUE");
 
-
         for (String s : stringNumberList) numberList.add(Integer.valueOf(s));
         Collections.sort(numberList);
 
         System.out.println(numberList + " - Отсортированная список элементов");
 
-        //TableOperations.countColumn();
         countColumn();
-        //columns1 = TableOperations.columns;
         columns1 = columns;
         System.out.println(columns1 + " | Количество столбцов в БД");
 
-        //ableOperations.alterTable();
         alterTable();
-        //TableOperations.columnName();
         columnName();
 
-        //query1 = "INSERT INTO list_arrays (" + TableOperations.query + ") VALUES ("+ e + ")";
         query1 = "INSERT INTO list_arrays (" + query + ") VALUES (" + e + ")";
-        //String query = "INSERT INTO table_name VALUES ("+ e + ")";
-
         System.out.println(query1 + " | Итоговая строка для вставки значений в БД");
 
-        //TableOperations.insertRow(query1);
         insertRow(query1);
     }
 
@@ -104,7 +92,6 @@ public class Model {
     public void countColumn() {
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement ps = con.prepareStatement("select * from list_arrays");
-             //PreparedStatement ps = con.prepareStatement("select * from table_name");
              ResultSet rs = ps.executeQuery()) {
             ResultSetMetaData rsmd = rs.getMetaData();
             columns = rsmd.getColumnCount();
@@ -117,7 +104,6 @@ public class Model {
     public void columnName() {
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement ps = con.prepareStatement("select * from list_arrays");
-             //PreparedStatement ps = con.prepareStatement("select * from table_name");
              ResultSet rs = ps.executeQuery()) {
             ResultSetMetaData meta = rs.getMetaData();
 
@@ -158,13 +144,9 @@ public class Model {
                 columns++;
                 clmns[i] = columns;
                 String sql = "ALTER TABLE list_arrays ADD column column_" + clmns[i] + " varchar(10)";
-                //String sql="ALTER TABLE table_name ADD column column_"+clmns[i]+" varchar(10)";
 
                 try (Connection con = DriverManager.getConnection(url, user, password);
-
-                     PreparedStatement ps = con.prepareStatement(sql)
-                     //PreparedStatement ps = con.prepareStatement("select * from table_name");
-                     ) {
+                     PreparedStatement ps = con.prepareStatement(sql)) {
                     ps.execute();
 
                 } catch (SQLException ex) {
@@ -180,7 +162,6 @@ public class Model {
     public void insertRow(String query) {
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement ps = con.prepareStatement(query))
-             //PreparedStatement ps = con.prepareStatement("select * from table_name");
               {
                   ps.execute();
                   System.out.println("Query done! Check it");
@@ -195,15 +176,21 @@ public class Model {
 
     //Метод возвращающий массивы из Базы Данных массивов
     public String[] getDBid(Integer id){
+        countColumn();
+        System.out.println(columns + " | Колличество столбцов");
+
         String sql = "SELECT * FROM list_arrays WHERE id = " + id;
 
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement(sql);
              ResultSet rs = pst.executeQuery()) {
 
-            while (rs.next()) {
-                //getArray = new String[]{rs.getString("first_number") + ", " + rs.getString("second_number") + ", " + rs.getString("third_number") + ", " + rs.getString("fourth_number") + ", " + rs.getString("fifth_number")};
+            getArray = new String[columns+1];
 
+            while (rs.next()) {
+                for(int t = 2; t < getArray.length; t++){
+                    getArray[t] = rs.getString(t);
+                }
             }
 
         } catch (SQLException ex) {

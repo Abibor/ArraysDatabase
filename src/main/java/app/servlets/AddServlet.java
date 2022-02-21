@@ -1,6 +1,5 @@
 package app.servlets;
 
-import app.entities.TableOperations;
 import app.model.Model;
 
 import javax.servlet.RequestDispatcher;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,25 +29,10 @@ public class AddServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //для отображения принятых значений из http в сервлет
-        PrintWriter writer = resp.getWriter();
-
-        //Обращаемся к единственному объекту model
         Model model = Model.getInstance();
 
         String[] numbers = req.getParameterValues("number");
 
-        //List<String> stringNumberList = new ArrayList<>();
-        //List<Integer> numberList = new ArrayList<>();
-
-        /*
-        try {
-            writer.println("<h4>Courses</h4>");
-            for(String course: numbers)
-                writer.println("<li>" + course + "</li>");
-        } finally {
-            writer.close();
-        }*/
         boolean check = true;
 
         String a = "Вы пропустили ввод элемента";
@@ -66,30 +49,16 @@ public class AddServlet extends HttpServlet {
             numberList = new ArrayList<>();
 
             for(String s : stringNumberList) numberList.add(Integer.valueOf(s));
-
             Collections.sort(numberList);
-
             req.setAttribute("myArray", numberList);
         }
 
         pushList = new ArrayList<>();
         for(int i : numberList) pushList.add(String.valueOf(i));
 
-
         System.out.println(pushList);
 
-
         model.start(pushList);
-
-
-
-        /*
-        //добавляем объект массива array в БД
-        model.add(array);
-
-        //myArray = array.getArray();
-        String a = "Работает";
-        req.setAttribute("myArray", a);*/
 
         doGet(req, resp);
     }
