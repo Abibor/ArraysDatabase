@@ -10,19 +10,19 @@ import java.util.List;
 public class Calculation {
 
     private static String d = "";
-    private static int columns;
+    private static int columns1;
     public static int nowColumns;
-    public static String query;
+    public static String query1;
 
     public static void main(String [] args) throws SQLException {
         List<String> stringNumberList = new ArrayList<>();
         List<Integer> numberList = new ArrayList<>();
 
         stringNumberList.add("2");
-        stringNumberList.add("22");
-        stringNumberList.add("222");
-        stringNumberList.add("2222");
-        stringNumberList.add("-2");
+        //stringNumberList.add("22");
+        //stringNumberList.add("222");
+        //stringNumberList.add("2222");
+        //stringNumberList.add("-2");
         //stringNumberList.add("5");
         //stringNumberList.add("6");
         //stringNumberList.add("7");
@@ -52,18 +52,18 @@ public class Calculation {
         System.out.println(numberList + " - Отсортированная список элементов");
 
         TableOperations.countColumn();
-        columns = TableOperations.columns;
-        System.out.println(columns + " | Количество столбцов в БД");
+        columns1 = TableOperations.columns;
+        System.out.println(columns1 + " | Количество столбцов в БД");
 
         TableOperations.alterTable();
         TableOperations.columnName();
 
-        query = "INSERT INTO list_arrays (" + TableOperations.query + ") VALUES ("+ e + ")";
+        query1 = "INSERT INTO list_arrays (" + TableOperations.query + ") VALUES ("+ e + ")";
         //String query = "INSERT INTO table_name VALUES ("+ e + ")";
 
-        System.out.println(query + " | Итоговая строка для вставки значений в БД");
+        System.out.println(query1 + " | Итоговая строка для вставки значений в БД");
 
-        TableOperations.insertRow(query);
+        TableOperations.insertRow(query1);
 
     }
 }

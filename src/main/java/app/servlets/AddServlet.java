@@ -1,6 +1,6 @@
 package app.servlets;
 
-import app.entities.Array;
+import app.entities.TableOperations;
 import app.model.Model;
 
 import javax.servlet.RequestDispatcher;
@@ -10,12 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class AddServlet extends HttpServlet {
+
+    List<String> stringNumberList;
+    List<String> pushList;
+    List<Integer> numberList;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,8 +39,8 @@ public class AddServlet extends HttpServlet {
 
         String[] numbers = req.getParameterValues("number");
 
-        List<String> stringNumberList = new ArrayList<>();
-        List<Integer> numberList = new ArrayList<>();
+        //List<String> stringNumberList = new ArrayList<>();
+        //List<Integer> numberList = new ArrayList<>();
 
         /*
         try {
@@ -58,14 +63,25 @@ public class AddServlet extends HttpServlet {
 
         if(check) {
             stringNumberList = Arrays.asList(numbers);
+            numberList = new ArrayList<>();
+
             for(String s : stringNumberList) numberList.add(Integer.valueOf(s));
 
             Collections.sort(numberList);
 
-            //model.addDB(numberList);
-
             req.setAttribute("myArray", numberList);
         }
+
+        pushList = new ArrayList<>();
+        for(int i : numberList) pushList.add(String.valueOf(i));
+
+
+        System.out.println(pushList);
+
+
+        model.start(pushList);
+
+
 
         /*
         //добавляем объект массива array в БД

@@ -17,8 +17,8 @@ public class ListServlet extends HttpServlet {
         requestDispatcher.forward(req, resp);
 
         Model model = Model.getInstance();
-        Integer count = model.countDB();
-        req.setAttribute("count", count);
+        //Integer count = model.countDB();
+        //req.setAttribute("count", count);
     }
 
     @Override
@@ -34,8 +34,8 @@ public class ListServlet extends HttpServlet {
         if(!idNumber.isEmpty()){
 
             //метод возвращающий отсортированный массив
-            String[] arrays = model.getDBid(id);
-            req.setAttribute("arrays", arrays);
+            //String[] arrays = model.getDBid(id);
+            //req.setAttribute("arrays", arrays);
         }
         doGet(req, resp);
     }

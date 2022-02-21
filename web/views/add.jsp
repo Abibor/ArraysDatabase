@@ -30,7 +30,7 @@
     %>
     <div class="w3-card-4">
         <div class="w3-container w3-center w3-green">
-            <h2>Введите элементы массива!</h2>
+            <h2>Add elements to database!</h2>
         </div>
 
         <form method="post" class="w3-selection w3-hover-light-gray w3-padding">
