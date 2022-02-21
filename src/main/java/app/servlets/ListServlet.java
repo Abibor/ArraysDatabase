@@ -1,7 +1,6 @@
 package app.servlets;
 
 import app.model.Model;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +16,12 @@ public class ListServlet extends HttpServlet {
         requestDispatcher.forward(req, resp);
 
         Model model = Model.getInstance();
-        //Integer count = model.countDB();
-        //req.setAttribute("count", count);
+        Integer count = model.countDB();
+        req.setAttribute("count", count);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         //Обращаемся к динственному объекту model
         Model model = Model.getInstance();
 
@@ -32,12 +30,10 @@ public class ListServlet extends HttpServlet {
         int id = Integer.parseInt(idNumber);
 
         if(!idNumber.isEmpty()){
-
             //метод возвращающий отсортированный массив
-            //String[] arrays = model.getDBid(id);
-            //req.setAttribute("arrays", arrays);
+            String[] arrays = model.getDBid(id);
+            req.setAttribute("arrays", arrays);
         }
         doGet(req, resp);
     }
-
 }

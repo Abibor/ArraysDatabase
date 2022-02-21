@@ -28,6 +28,9 @@ public class Model {
     public static int nowColumns;
     public static String query1;
 
+    int count = 0;
+    String[] getArray;
+
     public static Model getInstance() {
         return instance;
     }
@@ -37,20 +40,7 @@ public class Model {
     }
 
     public void start(List<String> stringNumberList) {
-        //List<String> stringNumberList = new ArrayList<>();
         List<Integer> numberList = new ArrayList<>();
-
-        //stringNumberList.add("2");
-        //stringNumberList.add("22");
-        //stringNumberList.add("222");
-        //stringNumberList.add("2222");
-        //stringNumberList.add("-2");
-        //stringNumberList.add("5");
-        //stringNumberList.add("6");
-        //stringNumberList.add("7");
-        //stringNumberList.add("7");
-        //stringNumberList.add("7");
-        //stringNumberList.add("7");
 
         System.out.println(stringNumberList);
         nowColumns = stringNumberList.size();
@@ -94,19 +84,30 @@ public class Model {
         insertRow(query1);
     }
 
+    //Метод вычисляющий колличество строк в БД
+    public Integer countDB() {
+        String query = "SELECT COUNT (*) from list_arrays";
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement pst = con.prepareStatement(query);
+             ResultSet rs = pst.executeQuery())  {
+            rs.next();
+            count = rs.getInt(1);
+
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Model.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return count;
+    }
+
 
     public void countColumn() {
-
         try (Connection con = DriverManager.getConnection(url, user, password);
-
              PreparedStatement ps = con.prepareStatement("select * from list_arrays");
              //PreparedStatement ps = con.prepareStatement("select * from table_name");
-
              ResultSet rs = ps.executeQuery()) {
             ResultSetMetaData rsmd = rs.getMetaData();
-
             columns = rsmd.getColumnCount();
-
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(Model.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
@@ -114,12 +115,9 @@ public class Model {
     }
 
     public void columnName() {
-
         try (Connection con = DriverManager.getConnection(url, user, password);
-
              PreparedStatement ps = con.prepareStatement("select * from list_arrays");
              //PreparedStatement ps = con.prepareStatement("select * from table_name");
-
              ResultSet rs = ps.executeQuery()) {
             ResultSetMetaData meta = rs.getMetaData();
 
@@ -132,22 +130,17 @@ public class Model {
                 String columnName = meta.getColumnName(i);
                 nameColumn.add(columnName);
             }
-
             System.out.println(nameColumn + " | Имена столбцов в таблице");
 
             String e = "";
-
             for (int i = 1; i < nowColumns + 1; i++) {
                 e = e + nameColumn.get(i) + ", ";
             }
-
             StringBuilder sb = new StringBuilder(e);
             sb.deleteCharAt(sb.length() - 2);
             e = sb.toString();
             query = e.trim();
-
             System.out.println(query + " | Строка стобцов для INSERT");
-
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(Model.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
@@ -178,7 +171,6 @@ public class Model {
                     Logger lgr = Logger.getLogger(Model.class.getName());
                     lgr.log(Level.SEVERE, ex.getMessage(), ex);
                 }
-
             }
         } else {
             System.out.println("Колличество столбцов хватает для количества элементов массива");
@@ -186,23 +178,39 @@ public class Model {
     }
 
     public void insertRow(String query) {
-
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement ps = con.prepareStatement(query))
              //PreparedStatement ps = con.prepareStatement("select * from table_name");
-
               {
                   ps.execute();
                   System.out.println("Query done! Check it");
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Model.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        query1 = "";
+        d = "";
+        e = "";
+    }
+
+    //Метод возвращающий массивы из Базы Данных массивов
+    public String[] getDBid(Integer id){
+        String sql = "SELECT * FROM list_arrays WHERE id = " + id;
+
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement pst = con.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
+
+            while (rs.next()) {
+                //getArray = new String[]{rs.getString("first_number") + ", " + rs.getString("second_number") + ", " + rs.getString("third_number") + ", " + rs.getString("fourth_number") + ", " + rs.getString("fifth_number")};
+
+            }
 
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(Model.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
-
-        query1 = "";
-        d = "";
-        e = "";
+        return getArray;
     }
 }
 
