@@ -11,9 +11,9 @@ public class Model {
     private static final Model instance = new Model();
 
     //доступ к БД
-    private static String url = "jdbc:postgresql://localhost:5432/database_arrays";
-    private static String user = "postgres";
-    private static String password = "453659";
+    private static final String url = "jdbc:postgresql://localhost:5432/database_arrays";
+    private static final String user = "postgres";
+    private static final String password = "453659";
 
     public static int columns;
     public static String query;
@@ -21,7 +21,6 @@ public class Model {
     //Ниже переменные для начала работы с БД
     private static String d = "";
     private static String e = "";
-    private static int columns1;
     public static int nowColumns;
     public static String query1;
 
@@ -43,8 +42,8 @@ public class Model {
         nowColumns = stringNumberList.size();
         System.out.println(nowColumns + " | Количество элементов в списке для добавления в БД");
 
-        for (int i = 0; i < stringNumberList.size(); i++) {
-            d = d + stringNumberList.get(i) + ", ";
+        for (String value : stringNumberList) {
+            d = d + value + ", ";
         }
 
         StringBuilder sb = new StringBuilder(d);
@@ -60,7 +59,7 @@ public class Model {
         System.out.println(numberList + " - Отсортированная список элементов");
 
         countColumn();
-        columns1 = columns;
+        int columns1 = columns;
         System.out.println(columns1 + " | Количество столбцов в БД");
 
         alterTable();
@@ -74,7 +73,7 @@ public class Model {
 
     //Метод вычисляющий колличество строк в БД
     public Integer countDB() {
-        String query = "SELECT COUNT (*) from list_arrays";
+        String query = "SELECT COUNT (*) FROM list_arrays";
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement(query);
              ResultSet rs = pst.executeQuery())  {
@@ -91,7 +90,7 @@ public class Model {
 
     public void countColumn() {
         try (Connection con = DriverManager.getConnection(url, user, password);
-             PreparedStatement ps = con.prepareStatement("select * from list_arrays");
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM list_arrays");
              ResultSet rs = ps.executeQuery()) {
             ResultSetMetaData rsmd = rs.getMetaData();
             columns = rsmd.getColumnCount();
@@ -103,7 +102,7 @@ public class Model {
 
     public void columnName() {
         try (Connection con = DriverManager.getConnection(url, user, password);
-             PreparedStatement ps = con.prepareStatement("select * from list_arrays");
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM list_arrays");
              ResultSet rs = ps.executeQuery()) {
             ResultSetMetaData meta = rs.getMetaData();
 
@@ -118,14 +117,14 @@ public class Model {
             }
             System.out.println(nameColumn + " | Имена столбцов в таблице");
 
-            String e = "";
+            StringBuilder e = new StringBuilder();
             for (int i = 1; i < nowColumns + 1; i++) {
-                e = e + nameColumn.get(i) + ", ";
+                e.append(nameColumn.get(i)).append(", ");
             }
-            StringBuilder sb = new StringBuilder(e);
+            StringBuilder sb = new StringBuilder(e.toString());
             sb.deleteCharAt(sb.length() - 2);
-            e = sb.toString();
-            query = e.trim();
+            e = new StringBuilder(sb.toString());
+            query = e.toString().trim();
             System.out.println(query + " | Строка стобцов для INSERT");
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(Model.class.getName());
@@ -143,7 +142,7 @@ public class Model {
             for (int i = 0; i < clmns.length; i++) {
                 columns++;
                 clmns[i] = columns;
-                String sql = "ALTER TABLE list_arrays ADD column column_" + clmns[i] + " varchar(10)";
+                String sql = "ALTER TABLE list_arrays ADD COLUMN column_" + clmns[i] + " varchar(10)";
 
                 try (Connection con = DriverManager.getConnection(url, user, password);
                      PreparedStatement ps = con.prepareStatement(sql)) {

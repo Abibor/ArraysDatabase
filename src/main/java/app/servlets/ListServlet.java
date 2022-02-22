@@ -43,7 +43,7 @@ public class ListServlet extends HttpServlet {
             list.removeAll(Collections.singleton(""));
 
             //Превращенеи списка в массив и передача в jsp
-            String[] arr = list.toArray(new String[list.size()]);
+            String[] arr = list.toArray(new String[0]);
             req.setAttribute("arrays", arr);
         }
         doGet(req, resp);
